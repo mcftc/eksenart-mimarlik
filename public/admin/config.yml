@@ -112,7 +112,7 @@ collections:
     files:
       - name: settings
         label: Genel Ayarlar
-        file: src/content/settings/index.yaml
+        file: src/content/settings/index.json
         fields:
           - { name: heroTitle, label: Ana sayfa başlık, widget: string }
           - { name: heroSubtitle, label: Ana sayfa alt metin, widget: text }

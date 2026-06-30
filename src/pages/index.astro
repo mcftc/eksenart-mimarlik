@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { SITE, SERVICE_HUBS } from "@/consts";
+import settings from "@/content/settings/index.json";
 
 const projects = (await getCollection("projects", (p) => !p.data.draft))
   .filter((p) => p.data.featured)
@@ -9,9 +10,9 @@ const projects = (await getCollection("projects", (p) => !p.data.draft))
   .slice(0, 6);
 
 const stats = [
-  { value: "15+", label: "yıl deneyim" },
-  { value: "120+", label: "tamamlanan proje" },
-  { value: "85.000", label: "m² uygulama" },
+  { value: settings.statYears, label: "yıl deneyim" },
+  { value: settings.statProjects, label: "tamamlanan proje" },
+  { value: settings.statArea, label: "m² uygulama" },
 ];
 ---
 
@@ -22,10 +23,10 @@ const stats = [
       <div class="md:col-span-7">
         <p class="eyebrow">İstanbul · Mimarlık &amp; İnşaat</p>
         <h1 class="mt-5 text-[length:var(--text-display)] leading-[1.02]">
-          İstanbul Mimarlık ve<br />İnşaat Ofisi
+          {settings.heroTitle}
         </h1>
         <p class="mt-6 max-w-xl font-serif text-[length:var(--text-lead)] text-ink-2">
-          {SITE.positioning} Mimari proje, iç mimarlık ve anahtar teslim yapımı tek elden yürüten bir stüdyo.
+          {settings.heroSubtitle}
         </p>
         <div class="mt-9 flex flex-wrap items-center gap-4">
           <a href="/projeler/" class="inline-flex items-center gap-2 bg-ink px-6 py-3 text-sm font-medium text-canvas transition-colors hover:bg-accent">
