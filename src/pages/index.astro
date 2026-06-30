@@ -1,0 +1,131 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE, SERVICE_HUBS } from "@/consts";
+
+const projects = (await getCollection("projects", (p) => !p.data.draft))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 6);
+
+const stats = [
+  { value: "15+", label: "yıl deneyim" },
+  { value: "120+", label: "tamamlanan proje" },
+  { value: "85.000", label: "m² uygulama" },
+];
+---
+
+<BaseLayout title={SITE.defaultTitle} description={SITE.description} path="/">
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-line">
+    <div class="container-page grid items-center gap-10 pt-16 pb-20 md:grid-cols-12 md:pt-24 md:pb-28">
+      <div class="md:col-span-7">
+        <p class="eyebrow">İstanbul · Mimarlık &amp; İnşaat</p>
+        <h1 class="mt-5 text-[length:var(--text-display)] leading-[1.02]">
+          İstanbul Mimarlık ve<br />İnşaat Ofisi
+        </h1>
+        <p class="mt-6 max-w-xl font-serif text-[length:var(--text-lead)] text-ink-2">
+          {SITE.positioning} Mimari proje, iç mimarlık ve anahtar teslim yapımı tek elden yürüten bir stüdyo.
+        </p>
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <a href="/projeler/" class="inline-flex items-center gap-2 bg-ink px-6 py-3 text-sm font-medium text-canvas transition-colors hover:bg-accent">
+            Projeleri görün <span aria-hidden="true">→</span>
+          </a>
+          <a href="/iletisim/" class="inline-flex items-center gap-2 border border-ink px-6 py-3 text-sm font-medium transition-colors hover:bg-ink hover:text-canvas">
+            Görüşelim
+          </a>
+        </div>
+      </div>
+      <div class="md:col-span-5">
+        <div class="aspect-[4/5] overflow-hidden border border-line bg-canvas-2">
+          <img
+            src="/images/placeholder.svg"
+            alt="Eksenart Mimarlık tarafından tasarlanan örnek bir yapı"
+            width="800"
+            height="1000"
+            fetchpriority="high"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifesto -->
+  <section class="section">
+    <div class="container-page max-w-4xl">
+      <p class="font-serif text-[length:var(--text-h2)] leading-tight text-ink">
+        İyi mimarlık, bir fikrin yapıya dönüşürken hiçbir aşamada kaybolmamasıdır.
+        Tasarımı çizen ve inşa eden aynı ekip olduğunda, sonuç bütünleşik olur.
+      </p>
+    </div>
+  </section>
+
+  <!-- Seçili İşler — numbered editorial index -->
+  <section class="section border-t border-line bg-canvas-2">
+    <div class="container-page">
+      <div class="flex items-end justify-between gap-6">
+        <h2 class="text-[length:var(--text-h2)]">Seçili İşler</h2>
+        <a href="/projeler/" class="text-sm text-accent hover:underline">Tüm projeler →</a>
+      </div>
+
+      <ol class="mt-10 border-t border-line">
+        {
+          projects.map((p, i) => (
+            <li class="group border-b border-line">
+              <a href={`/projeler/${p.id}/`} class="grid grid-cols-12 items-center gap-4 py-6 transition-colors hover:bg-canvas-3/50">
+                <span class="nums col-span-2 text-sm text-muted md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
+                <span class="col-span-10 font-display text-xl text-ink transition-colors group-hover:text-accent md:col-span-6 md:text-2xl">{p.data.title}</span>
+                <span class="col-span-7 col-start-3 text-sm text-muted md:col-span-3 md:col-start-auto">{p.data.location}</span>
+                <span class="nums col-span-3 text-right text-sm text-muted md:col-span-2">{p.data.year}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Hizmetler strip -->
+  <section class="section">
+    <div class="container-page">
+      <h2 class="text-[length:var(--text-h2)]">Hizmetler</h2>
+      <p class="mt-3 max-w-2xl text-ink-2">Tek bir ofiste, mimari tasarımdan yapıma altı uzmanlık.</p>
+      <div class="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        {
+          SERVICE_HUBS.map((s) => (
+            <a href={`/hizmetler/${s.slug}/`} class="group flex flex-col bg-canvas p-7 transition-colors hover:bg-canvas-2">
+              <h3 class="font-display text-lg text-ink transition-colors group-hover:text-accent">{s.title}</h3>
+              <p class="mt-2 text-sm text-muted">{s.short}</p>
+              <span class="mt-6 text-sm text-accent">Detay →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Credibility band -->
+  <section class="border-y border-line bg-ink text-canvas">
+    <div class="container-page grid gap-8 py-16 sm:grid-cols-3">
+      {
+        stats.map((s) => (
+          <div>
+            <p class="nums font-display text-[length:var(--text-h1)] leading-none text-canvas">{s.value}</p>
+            <p class="mt-2 text-sm uppercase tracking-wider text-canvas/60">{s.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="section">
+    <div class="container-page flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+      <h2 class="max-w-2xl text-[length:var(--text-h2)]">Bir projeniz mi var? Fikrinizi konuşarak başlayalım.</h2>
+      <a href="/iletisim/" class="inline-flex shrink-0 items-center gap-2 bg-accent px-6 py-3 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong">
+        İletişime geçin <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

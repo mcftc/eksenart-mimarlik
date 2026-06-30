@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/consts";
+
+const projects = (await getCollection("projects", (p) => !p.data.draft)).sort(
+  (a, b) => b.data.year - a.data.year
+);
+
+const categoryLabels: Record<string, string> = {
+  konut: "Konut",
+  villa: "Villa",
+  ticari: "Ticari",
+  ofis: "Ofis",
+  tadilat: "Tadilat",
+  "anahtar-teslim": "Anahtar Teslim",
+  "kentsel-donusum": "Kentsel Dönüşüm",
+};
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE.url + "/" },
+    { "@type": "ListItem", position: 2, name: "Projeler", item: SITE.url + "/projeler/" },
+  ],
+};
+---
+
+<BaseLayout
+  title="Projeler | Mimari ve İç Mimari Proje Örnekleri | Eksenart Mimarlık"
+  description="Eksenart Mimarlık projeleri: İstanbul'da villa, konut, ofis ve tadilat işleri. Mimari tasarım ve anahtar teslim yapım örneklerini inceleyin."
+  path="/projeler/"
+  jsonLd={breadcrumb}
+>
+  <section class="section">
+    <div class="container-page">
+      <p class="eyebrow">Portföy</p>
+      <h1 class="mt-4 text-[length:var(--text-h1)]">Projeler</h1>
+      <p class="mt-5 max-w-2xl font-serif text-[length:var(--text-lead)] text-ink-2">
+        Tasarladığımız ve inşa ettiğimiz işlerden bir seçki. Her proje, fikirden
+        teslime kendi hikâyesini anlatır.
+      </p>
+
+      <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((p) => (
+            <a href={`/projeler/${p.id}/`} class="group block">
+              <div class="aspect-[4/5] overflow-hidden border border-line bg-canvas-2">
+                <img
+                  src={p.data.cover}
+                  alt={p.data.coverAlt}
+                  width="800"
+                  height="1000"
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div class="mt-4 flex items-start justify-between gap-4">
+                <div>
+                  <h2 class="font-display text-lg text-ink transition-colors group-hover:text-accent">{p.data.title}</h2>
+                  <p class="mt-1 text-sm text-muted">{p.data.location}</p>
+                </div>
+                <span class="nums shrink-0 text-sm text-muted">{p.data.year}</span>
+              </div>
+              <p class="mt-2 text-xs uppercase tracking-wider text-accent">{categoryLabels[p.data.category] ?? p.data.category}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

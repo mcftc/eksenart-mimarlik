@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Sayfa bulunamadı (404)" description="Aradığınız sayfa bulunamadı." noindex={true} path="/404/">
+  <section class="section">
+    <div class="container-page max-w-2xl py-10 text-center">
+      <p class="eyebrow">404</p>
+      <h1 class="mt-4 text-[length:var(--text-h1)]">Sayfa bulunamadı</h1>
+      <p class="mt-5 text-ink-2">Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.</p>
+      <div class="mt-8 flex justify-center gap-4">
+        <a href="/" class="bg-ink px-6 py-3 text-sm text-canvas transition-colors hover:bg-accent">Ana sayfa</a>
+        <a href="/projeler/" class="border border-ink px-6 py-3 text-sm transition-colors hover:bg-ink hover:text-canvas">Projeler</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

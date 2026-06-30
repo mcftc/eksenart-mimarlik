@@ -1,0 +1,56 @@
+---
+import "@/styles/global.css";
+import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/fraunces";
+import { ClientRouter } from "astro:transitions";
+import Seo from "@/components/Seo.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import AnimatedBackground from "@/components/AnimatedBackground.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  image?: string;
+  noindex?: boolean;
+  type?: "website" | "article";
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0d0d11" />
+    <!-- No-flash theme: dark by default (matches eksenart.com), .light if chosen -->
+    <script is:inline>
+      (function () {
+        try {
+          if (localStorage.theme === "light") document.documentElement.classList.add("light");
+        } catch (e) {}
+      })();
+    </script>
+    <Seo {...props} />
+    <ClientRouter />
+  </head>
+  <body>
+    <AnimatedBackground />
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-4 focus:py-2 focus:text-canvas"
+      >İçeriğe geç</a
+    >
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

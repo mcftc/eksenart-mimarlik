@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/consts";
+
+const services = (await getCollection("services", (s) => !s.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE.url + "/" },
+    { "@type": "ListItem", position: 2, name: "Hizmetler", item: SITE.url + "/hizmetler/" },
+  ],
+};
+---
+
+<BaseLayout
+  title="Hizmetler | Mimari Proje, İç Mimarlık ve İnşaat | Eksenart Mimarlık"
+  description="Eksenart Mimarlık hizmetleri: mimari proje, iç mimarlık, anahtar teslim inşaat, tadilat-renovasyon, kentsel dönüşüm ve 3D mimari görselleştirme. İstanbul."
+  path="/hizmetler/"
+  jsonLd={breadcrumb}
+>
+  <section class="section">
+    <div class="container-page">
+      <p class="eyebrow">Ne yapıyoruz</p>
+      <h1 class="mt-4 text-[length:var(--text-h1)]">Hizmetler</h1>
+      <p class="mt-5 max-w-2xl font-serif text-[length:var(--text-lead)] text-ink-2">
+        Mimari tasarımdan anahtar teslim yapıma; bir projenin her aşamasını tek elden
+        yürütüyoruz.
+      </p>
+
+      <div class="mt-12 border-t border-line">
+        {
+          services.map((s, i) => (
+            <a href={`/hizmetler/${s.id}/`} class="group grid grid-cols-12 items-baseline gap-4 border-b border-line py-8 transition-colors hover:bg-canvas-2">
+              <span class="nums col-span-2 text-sm text-muted md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
+              <div class="col-span-10 md:col-span-7">
+                <h2 class="font-display text-2xl text-ink transition-colors group-hover:text-accent">{s.data.title}</h2>
+                <p class="mt-2 max-w-xl text-sm text-muted">{s.data.excerpt}</p>
+              </div>
+              <span class="col-span-12 mt-2 text-sm text-accent md:col-span-4 md:mt-0 md:text-right">Detay →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

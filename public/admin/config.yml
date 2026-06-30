@@ -1,0 +1,123 @@
+# Sveltia CMS (Decap-compatible) — git-based visual admin for Eksenart Mimarlık.
+# Auth via a GitHub OAuth proxy worker (base_url). Saves commit to the repo; a
+# GitHub Action then rebuilds + deploys to Cloudflare.
+backend:
+  name: github
+  repo: mcftc/eksenart-mimarlik
+  branch: main
+  base_url: https://eksenart-cms-auth.gmcftci.workers.dev
+
+site_url: https://mimarlik.eksenart.com
+display_url: https://mimarlik.eksenart.com
+media_folder: public/images/uploads
+public_folder: /images/uploads
+locale: tr
+
+collections:
+  - name: projects
+    label: Projeler
+    label_singular: Proje
+    folder: src/content/projects
+    extension: mdx
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{year}}"
+    sortable_fields: [year, title]
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - { name: summary, label: Özet (meta açıklama), widget: text }
+      - name: category
+        label: Kategori
+        widget: select
+        default: konut
+        options:
+          - { label: Konut, value: konut }
+          - { label: Villa, value: villa }
+          - { label: Ticari, value: ticari }
+          - { label: Ofis, value: ofis }
+          - { label: Tadilat, value: tadilat }
+          - { label: Anahtar Teslim, value: anahtar-teslim }
+          - { label: Kentsel Dönüşüm, value: kentsel-donusum }
+      - name: services
+        label: Hizmetler
+        widget: select
+        multiple: true
+        required: false
+        options:
+          - { label: Mimari Proje, value: mimari-proje }
+          - { label: İç Mimarlık, value: ic-mimarlik }
+          - { label: Anahtar Teslim İnşaat, value: anahtar-teslim-insaat }
+          - { label: Tadilat & Renovasyon, value: tadilat-renovasyon }
+          - { label: Kentsel Dönüşüm, value: kentsel-donusum }
+          - { label: 3D Mimari Görselleştirme, value: 3d-mimari-gorsellestirme }
+      - { name: location, label: Konum (İl, İlçe), widget: string }
+      - { name: district, label: İlçe, widget: string, required: false }
+      - { name: year, label: Yıl, widget: number, value_type: int, default: 2025 }
+      - { name: area_m2, label: Alan (m²), widget: number, value_type: int, required: false }
+      - { name: duration, label: Süre, widget: string, required: false }
+      - name: status
+        label: Durum
+        widget: select
+        default: tamamlandi
+        options:
+          - { label: Tamamlandı, value: tamamlandi }
+          - { label: Devam ediyor, value: devam }
+          - { label: Konsept, value: konsept }
+      - { name: cover, label: Kapak görseli, widget: image }
+      - { name: coverAlt, label: Kapak alt metni (SEO), widget: string }
+      - name: gallery
+        label: Galeri
+        widget: list
+        required: false
+        fields:
+          - { name: src, label: Görsel, widget: image }
+          - { name: alt, label: Alt metin, widget: string }
+          - { name: caption, label: Açıklama, widget: string, required: false }
+      - { name: materials, label: Malzemeler, widget: list, required: false }
+      - { name: featured, label: Öne çıkan, widget: boolean, default: false }
+      - { name: draft, label: Taslak, widget: boolean, default: false }
+      - { name: content, label: İçerik / Proje anlatısı, widget: markdown }
+
+  - name: services
+    label: Hizmetler
+    label_singular: Hizmet
+    folder: src/content/services
+    extension: mdx
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - { name: order, label: Sıra, widget: number, value_type: int, default: 0 }
+      - { name: excerpt, label: Özet, widget: text }
+      - { name: keywords, label: Anahtar kelimeler (SEO), widget: list, required: false }
+      - { name: metaTitle, label: Meta başlık (SEO), widget: string, required: false }
+      - { name: metaDescription, label: Meta açıklama (SEO), widget: text, required: false }
+      - name: faqs
+        label: Sıkça Sorulan Sorular
+        widget: list
+        required: false
+        fields:
+          - { name: q, label: Soru, widget: string }
+          - { name: a, label: Cevap, widget: text }
+      - { name: related, label: İlgili hizmetler (slug), widget: list, required: false }
+      - { name: draft, label: Taslak, widget: boolean, default: false }
+      - { name: content, label: İçerik, widget: markdown }
+
+  - name: settings
+    label: Site Ayarları
+    files:
+      - name: settings
+        label: Genel Ayarlar
+        file: src/content/settings/index.yaml
+        fields:
+          - { name: heroTitle, label: Ana sayfa başlık, widget: string }
+          - { name: heroSubtitle, label: Ana sayfa alt metin, widget: text }
+          - { name: phone, label: Telefon, widget: string }
+          - { name: email, label: E-posta, widget: string }
+          - { name: address, label: Adres, widget: string }
+          - { name: statYears, label: "İstatistik — yıl deneyim", widget: string }
+          - { name: statProjects, label: "İstatistik — tamamlanan proje", widget: string }
+          - { name: statArea, label: "İstatistik — m² uygulama", widget: string }

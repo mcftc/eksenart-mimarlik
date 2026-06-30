@@ -1,0 +1,91 @@
+---
+import { SITE, CONTACT, SOCIAL, NAV, SERVICE_HUBS } from "@/consts";
+const year = 2026;
+---
+
+<!-- eksenart.com cross-link band (crawlable, not a splash gate) -->
+<section class="border-t border-line bg-canvas-2">
+  <div class="container-page flex flex-col items-start justify-between gap-4 py-10 md:flex-row md:items-center">
+    <div>
+      <p class="eyebrow">Eksenart</p>
+      <p class="mt-1 font-serif text-xl text-ink">{SITE.sister.blurb}</p>
+    </div>
+    <a
+      href={SITE.sister.url}
+      class="inline-flex items-center gap-2 border border-ink px-5 py-3 text-sm font-medium transition-colors hover:bg-ink hover:text-canvas"
+    >
+      {SITE.sister.name}’a git <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer class="border-t border-line bg-canvas text-ink-2">
+  <div class="container-page grid gap-10 py-16 md:grid-cols-4">
+    <div class="md:col-span-1">
+      <p class="font-display text-lg font-semibold text-ink">
+        Eksenart <span class="text-accent">Mimarlık</span>
+      </p>
+      <p class="mt-3 max-w-xs text-sm text-muted">
+        İstanbul merkezli mimarlık ve inşaat ofisi. Mimari tasarımdan anahtar teslime.
+      </p>
+    </div>
+
+    <nav aria-label="Hizmetler" class="text-sm">
+      <p class="eyebrow mb-3">Hizmetler</p>
+      <ul class="space-y-2">
+        {
+          SERVICE_HUBS.map((s) => (
+            <li>
+              <a href={`/hizmetler/${s.slug}/`} class="transition-colors hover:text-accent">
+                {s.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-label="Site" class="text-sm">
+      <p class="eyebrow mb-3">Keşfet</p>
+      <ul class="space-y-2">
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} class="transition-colors hover:text-accent">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={SITE.sister.url} class="text-muted transition-colors hover:text-accent">
+            {SITE.sister.label} ↗
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <address class="text-sm not-italic">
+      <p class="eyebrow mb-3">İletişim</p>
+      <ul class="space-y-2">
+        <li>
+          <a href={`tel:${CONTACT.phoneHref}`} class="transition-colors hover:text-accent">{CONTACT.phone}</a>
+        </li>
+        <li>
+          <a href={`mailto:${CONTACT.email}`} class="transition-colors hover:text-accent">{CONTACT.email}</a>
+        </li>
+        <li class="text-muted">{CONTACT.streetAddress}, {CONTACT.district}, {CONTACT.city}</li>
+        <li class="text-muted">{CONTACT.hours}</li>
+      </ul>
+      <div class="mt-4 flex gap-4">
+        <a href={SOCIAL.instagram} rel="me noopener" target="_blank" class="text-muted hover:text-accent">Instagram</a>
+        <a href={SOCIAL.linkedin} rel="me noopener" target="_blank" class="text-muted hover:text-accent">LinkedIn</a>
+      </div>
+    </address>
+  </div>
+
+  <div class="container-page flex flex-col gap-2 border-t border-line py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+    <p>© {year} {SITE.name}. Tüm hakları saklıdır.</p>
+    <p>İstanbul · Mimarlık & İnşaat</p>
+  </div>
+</footer>

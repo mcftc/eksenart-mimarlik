@@ -1,0 +1,76 @@
+---
+import { NAV, SITE } from "@/consts";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== "/" && path.startsWith(href));
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-line/70 bg-canvas/75 backdrop-blur-md supports-[backdrop-filter]:bg-canvas/55"
+>
+  <div class="container-page flex h-16 items-center justify-between gap-6">
+    <a href="/" class="font-display text-lg font-semibold tracking-tight" aria-label="Eksenart Mimarlık ana sayfa">
+      Eksenart <span class="text-accent">Mimarlık</span>
+    </a>
+
+    <nav aria-label="Ana menü" class="hidden md:block">
+      <ul class="flex items-center gap-7 text-sm">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                class:list={[
+                  "transition-colors hover:text-accent",
+                  isActive(item.href) ? "text-accent" : "text-ink-2",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href={SITE.sister.url}
+        class="hidden text-sm text-muted transition-colors hover:text-accent lg:inline-flex lg:items-center lg:gap-1"
+        title={`${SITE.sister.name} — fuar standı işleri`}
+      >
+        {SITE.sister.label} <span aria-hidden="true">↗</span>
+      </a>
+
+      <ThemeToggle />
+
+      <details class="relative md:hidden">
+        <summary
+          class="flex h-9 w-9 cursor-pointer list-none items-center justify-center [&::-webkit-details-marker]:hidden"
+          aria-label="Menüyü aç/kapat"
+        >
+          <span class="block h-px w-5 bg-ink shadow-[0_6px_0_var(--color-ink),0_-6px_0_var(--color-ink)]"></span>
+        </summary>
+        <nav aria-label="Mobil menü" class="absolute right-0 top-11 w-56 border border-line bg-canvas p-2 shadow-xl">
+          <ul class="flex flex-col">
+            {
+              NAV.map((item) => (
+                <li>
+                  <a href={item.href} class="block px-3 py-2 text-sm hover:bg-canvas-2">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+            <li class="mt-1 border-t border-line pt-1">
+              <a href={SITE.sister.url} class="block px-3 py-2 text-sm text-muted hover:bg-canvas-2">
+                {SITE.sister.label} ↗
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

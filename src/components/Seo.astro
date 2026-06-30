@@ -1,0 +1,111 @@
+---
+import { SITE, CONTACT, SOCIAL } from "@/consts";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Canonical path, e.g. "/hizmetler/". Defaults to current URL path. */
+  path?: string;
+  image?: string;
+  noindex?: boolean;
+  type?: "website" | "article";
+  /** Extra page-specific JSON-LD nodes merged into the @graph. */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = SITE.description,
+  path,
+  image = "/og/default.jpg",
+  noindex = false,
+  type = "website",
+  jsonLd,
+} = Astro.props;
+
+const canonical = new URL(path ?? Astro.url.pathname, SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
+
+// Titles already carry the brand → no doubling.
+const pageTitle = title
+  ? title.includes("Eksenart")
+    ? title
+    : `${title} | Eksenart Mimarlık`
+  : SITE.defaultTitle;
+
+const orgId = `${SITE.url}/#organization`;
+const businessId = `${SITE.url}/#localbusiness`;
+const websiteId = `${SITE.url}/#website`;
+
+const organization = {
+  "@type": "Organization",
+  "@id": orgId,
+  name: SITE.name,
+  url: SITE.url,
+  logo: `${SITE.url}/logo.png`,
+  sameAs: [SITE.sister.url, SOCIAL.instagram, SOCIAL.linkedin],
+};
+
+const localBusiness = {
+  "@type": ["LocalBusiness", "GeneralContractor"],
+  "@id": businessId,
+  name: SITE.name,
+  url: SITE.url,
+  image: ogImage,
+  telephone: CONTACT.phone,
+  email: CONTACT.email,
+  priceRange: "₺₺₺",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: CONTACT.streetAddress,
+    addressLocality: CONTACT.district,
+    addressRegion: CONTACT.region,
+    postalCode: CONTACT.postalCode,
+    addressCountry: CONTACT.country,
+  },
+  geo: { "@type": "GeoCoordinates", latitude: CONTACT.geo.lat, longitude: CONTACT.geo.lng },
+  areaServed: { "@type": "City", name: "İstanbul" },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "09:00",
+      closes: "19:00",
+    },
+  ],
+  parentOrganization: { "@id": orgId },
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": websiteId,
+  url: SITE.url,
+  name: SITE.name,
+  inLanguage: "tr-TR",
+  publisher: { "@id": orgId },
+};
+
+const graph: Record<string, unknown>[] = [organization, localBusiness, website];
+if (jsonLd) graph.push(...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]));
+const ldJson = { "@context": "https://schema.org", "@graph": graph };
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(ldJson)} />

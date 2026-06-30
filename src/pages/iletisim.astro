@@ -1,0 +1,82 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE, CONTACT } from "@/consts";
+
+const contactSchema = {
+  "@type": "ContactPage",
+  name: "İletişim — Eksenart Mimarlık",
+  url: SITE.url + "/iletisim/",
+  about: { "@id": `${SITE.url}/#localbusiness` },
+};
+---
+
+<BaseLayout
+  title="İletişim | Eksenart Mimarlık İstanbul"
+  description="Eksenart Mimarlık ile iletişime geçin. İstanbul'da mimari proje, iç mimarlık, anahtar teslim inşaat ve tadilat için ücretsiz görüşme ve teklif."
+  path="/iletisim/"
+  jsonLd={contactSchema}
+>
+  <section class="section">
+    <div class="container-page grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow">İletişim</p>
+        <h1 class="mt-4 text-[length:var(--text-h1)]">Projenizi konuşalım.</h1>
+        <p class="mt-5 font-serif text-[length:var(--text-lead)] text-ink-2">
+          Fikriniz ister bir eskiz ister tamamlanmış bir proje olsun; en doğru
+          başlangıç, konuşmaktır.
+        </p>
+
+        <dl class="mt-10 space-y-6 text-sm">
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-muted">Telefon</dt>
+            <dd class="mt-1"><a href={`tel:${CONTACT.phoneHref}`} class="text-lg text-ink hover:text-accent">{CONTACT.phone}</a></dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-muted">E-posta</dt>
+            <dd class="mt-1"><a href={`mailto:${CONTACT.email}`} class="text-lg text-ink hover:text-accent">{CONTACT.email}</a></dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-muted">WhatsApp</dt>
+            <dd class="mt-1"><a href={`https://wa.me/${CONTACT.whatsapp}`} rel="noopener" target="_blank" class="text-lg text-ink hover:text-accent">Mesaj gönderin →</a></dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-muted">Adres</dt>
+            <dd class="mt-1 text-ink-2">{CONTACT.streetAddress}, {CONTACT.district}, {CONTACT.city}</dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-muted">Çalışma saatleri</dt>
+            <dd class="mt-1 text-ink-2">{CONTACT.hours}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Form posts to a Cloudflare Worker (wired at deploy: Worker → Resend + Turnstile). -->
+      <div class="lg:col-span-7">
+        <form action="/api/contact" method="POST" class="border border-line bg-canvas-2 p-7 sm:p-9">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block text-sm">
+              <span class="text-ink-2">Ad Soyad</span>
+              <input name="name" required class="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-ink outline-none focus:border-accent" />
+            </label>
+            <label class="block text-sm">
+              <span class="text-ink-2">Telefon</span>
+              <input name="phone" type="tel" class="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-ink outline-none focus:border-accent" />
+            </label>
+            <label class="block text-sm sm:col-span-2">
+              <span class="text-ink-2">E-posta</span>
+              <input name="email" type="email" required class="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-ink outline-none focus:border-accent" />
+            </label>
+            <label class="block text-sm sm:col-span-2">
+              <span class="text-ink-2">Mesajınız</span>
+              <textarea name="message" rows="5" required class="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-ink outline-none focus:border-accent"></textarea>
+            </label>
+          </div>
+          <button type="submit" class="mt-6 inline-flex items-center gap-2 bg-ink px-6 py-3 text-sm font-medium text-canvas transition-colors hover:bg-accent">
+            Gönder <span aria-hidden="true">→</span>
+          </button>
+          <p class="mt-3 text-xs text-muted">Bilgileriniz yalnızca size dönüş yapmak için kullanılır.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
