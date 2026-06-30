@@ -5,7 +5,8 @@ backend:
   name: github
   repo: mcftc/eksenart-mimarlik
   branch: main
-  base_url: https://eksenart-cms-auth.gmcftci.workers.dev
+  # Auth: click "Sign In with Token" and paste a GitHub fine-grained PAT
+  # (repo eksenart-mimarlik → Contents: Read and write). No OAuth app needed.
 
 site_url: https://mimarlik.eksenart.com
 display_url: https://mimarlik.eksenart.com
