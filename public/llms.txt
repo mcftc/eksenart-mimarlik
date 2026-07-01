@@ -1,0 +1,24 @@
+# Eksenart Mimarlık
+
+> İstanbul merkezli mimarlık ofisi. Mimari proje, iç mimarlık, mimari tasarım, tadilat-renovasyon, kentsel dönüşüm ve 3D mimari görselleştirme. Fikirden projeye bütüncül mimari çözümler; konut, villa, ofis ve ticari mekânlar.
+
+## Hizmetler
+- [Mimari Proje](https://mimarlik.eksenart.com/hizmetler/mimari-proje/): Avan, uygulama ve ruhsat projeleri.
+- [İç Mimarlık](https://mimarlik.eksenart.com/hizmetler/ic-mimarlik/): Konut, ofis ve ticari iç mekân tasarımı.
+- [Tadilat & Renovasyon](https://mimarlik.eksenart.com/hizmetler/tadilat-renovasyon/): Daire ve bina yenileme.
+- [Kentsel Dönüşüm](https://mimarlik.eksenart.com/hizmetler/kentsel-donusum/): Riskli yapı yenileme.
+- [3D Mimari Görselleştirme](https://mimarlik.eksenart.com/hizmetler/3d-mimari-gorsellestirme/): Fotogerçekçi render.
+
+## Bölgeler
+- [Hizmet Bölgeleri](https://mimarlik.eksenart.com/bolgeler/): İstanbul ilçelerinde mimari proje ve iç mimarlık (Kadıköy, Üsküdar, Beşiktaş, Ataşehir, Sarıyer ve daha fazlası).
+
+## Rehber
+- [Rehber](https://mimarlik.eksenart.com/rehber/): Mimari proje fiyatları, avan/uygulama projesi, mimar seçimi ve tasarım süreçleri.
+
+## Kurumsal
+- [Projeler](https://mimarlik.eksenart.com/projeler/): Tamamlanmış mimari ve iç mimari projeler.
+- [Stüdyo](https://mimarlik.eksenart.com/hakkimizda/)
+- [İletişim](https://mimarlik.eksenart.com/iletisim/): +90 530 120 41 82 · info@eksenart.com · Üsküdar, İstanbul
+
+## Kardeş Marka
+- [Eksenart Fuar & Stand](https://eksenart.com): Fuar standı tasarım ve üretimi.
