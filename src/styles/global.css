@@ -132,6 +132,18 @@
     color: var(--color-accent);
   }
 
+  /* Long-form content (rehber / bölge / hizmet bodies) */
+  .prose-eksen > * + * { margin-top: 1rem; }
+  .prose-eksen :is(h2) { font-family: var(--font-display); font-size: 1.45rem; margin-top: 2.25rem; margin-bottom: 0.5rem; color: var(--color-ink); letter-spacing: -0.01em; }
+  .prose-eksen :is(h3) { font-family: var(--font-display); font-size: 1.15rem; margin-top: 1.75rem; margin-bottom: 0.35rem; color: var(--color-ink); }
+  .prose-eksen p { line-height: 1.75; color: var(--color-ink-2); }
+  .prose-eksen :is(ul, ol) { padding-left: 1.25rem; }
+  .prose-eksen ul { list-style: disc; }
+  .prose-eksen ol { list-style: decimal; }
+  .prose-eksen li { margin-top: 0.35rem; color: var(--color-ink-2); }
+  .prose-eksen a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
+  .prose-eksen strong { color: var(--color-ink); font-weight: 600; }
+
   /* Accent-tinted gradient text for hero emphasis */
   .text-gradient {
     background: linear-gradient(135deg, var(--color-ink) 30%, var(--color-accent) 130%);

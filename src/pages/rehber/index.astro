@@ -1,0 +1,54 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/consts";
+
+const posts = (await getCollection("rehber", (p) => !p.data.draft)).sort((a, b) =>
+  b.data.datePublished.localeCompare(a.data.datePublished)
+);
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE.url + "/" },
+    { "@type": "ListItem", position: 2, name: "Rehber", item: SITE.url + "/rehber/" },
+  ],
+};
+---
+
+<BaseLayout
+  title="Rehber | Mimari Proje ve Tasarım Rehberi | Eksenart Mimarlık"
+  description="Mimari proje, iç mimarlık ve tasarım süreçleri üzerine rehber yazıları: fiyatlar, avan/uygulama projesi, mimar seçimi ve daha fazlası."
+  path="/rehber/"
+  jsonLd={breadcrumb}
+>
+  <section class="section">
+    <div class="container-page">
+      <p class="eyebrow">Rehber</p>
+      <h1 class="mt-4 text-[length:var(--text-h1)]">Mimari Proje ve Tasarım Rehberi</h1>
+      <p class="mt-5 max-w-2xl font-serif text-[length:var(--text-lead)] text-ink-2">
+        Sürecin nasıl işlediğini, nelere dikkat edilmesi gerektiğini ve doğru soruları
+        yanıtlıyoruz.
+      </p>
+
+      <div class="mt-12 border-t border-line">
+        {
+          posts.map((p) => (
+            <a href={`/rehber/${p.id}/`} class="group grid grid-cols-1 gap-2 border-b border-line py-7 transition-colors hover:bg-canvas-2 md:grid-cols-12 md:items-baseline md:gap-4">
+              <div class="md:col-span-8">
+                <h2 class="font-display text-xl text-ink transition-colors group-hover:text-accent">{p.data.title}</h2>
+                <p class="mt-2 max-w-2xl text-sm text-muted">{p.data.excerpt}</p>
+              </div>
+              <div class="text-sm text-muted md:col-span-3">{p.data.category}</div>
+              <time class="nums text-sm text-muted md:col-span-1 md:text-right" datetime={p.data.datePublished}>
+                {fmt(p.data.datePublished)}
+              </time>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -107,6 +107,50 @@ collections:
       - { name: draft, label: Taslak, widget: boolean, default: false }
       - { name: content, label: İçerik, widget: markdown }
 
+  - name: bolgeler
+    label: Bölgeler
+    label_singular: Bölge
+    folder: src/content/bolgeler
+    extension: mdx
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - { name: ilce, label: İlçe, widget: string }
+      - { name: intro, label: Giriş (meta açıklama), widget: text }
+      - { name: metaTitle, label: Meta başlık (SEO), widget: string, required: false }
+      - { name: metaDescription, label: Meta açıklama (SEO), widget: text, required: false }
+      - name: services
+        label: İlgili hizmetler
+        widget: select
+        multiple: true
+        required: false
+        options: [mimari-proje, ic-mimarlik, tadilat-renovasyon, kentsel-donusum, 3d-mimari-gorsellestirme, anahtar-teslim-insaat]
+      - { name: draft, label: Taslak, widget: boolean, default: false }
+      - { name: content, label: İçerik, widget: markdown }
+
+  - name: rehber
+    label: Rehber (Blog)
+    label_singular: Yazı
+    folder: src/content/rehber
+    extension: mdx
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: [datePublished, title]
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - { name: excerpt, label: Özet, widget: text }
+      - { name: datePublished, label: Yayın tarihi, widget: date }
+      - { name: dateModified, label: Güncelleme tarihi, widget: date, required: false }
+      - { name: author, label: Yazar, widget: string, default: Eksenart Mimarlık }
+      - { name: category, label: Kategori, widget: string, required: false }
+      - { name: metaTitle, label: Meta başlık (SEO), widget: string, required: false }
+      - { name: metaDescription, label: Meta açıklama (SEO), widget: text, required: false }
+      - { name: draft, label: Taslak, widget: boolean, default: false }
+      - { name: content, label: İçerik, widget: markdown }
+
   - name: settings
     label: Site Ayarları
     files:

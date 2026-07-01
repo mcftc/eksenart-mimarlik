@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/consts";
+
+const items = (await getCollection("bolgeler", (b) => !b.data.draft)).sort((a, b) =>
+  a.data.ilce.localeCompare(b.data.ilce, "tr")
+);
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE.url + "/" },
+    { "@type": "ListItem", position: 2, name: "Bölgeler", item: SITE.url + "/bolgeler/" },
+  ],
+};
+---
+
+<BaseLayout
+  title="İstanbul Hizmet Bölgeleri | Mimarlık Ofisi | Eksenart Mimarlık"
+  description="Eksenart Mimarlık'ın İstanbul'da mimari proje ve iç mimarlık hizmeti verdiği bölgeler: Kadıköy, Üsküdar, Beşiktaş, Ataşehir, Beylikdüzü, Sarıyer ve çevresi."
+  path="/bolgeler/"
+  jsonLd={breadcrumb}
+>
+  <section class="section">
+    <div class="container-page">
+      <p class="eyebrow">Bölgeler</p>
+      <h1 class="mt-4 text-[length:var(--text-h1)]">İstanbul'da Hizmet Bölgelerimiz</h1>
+      <p class="mt-5 max-w-2xl font-serif text-[length:var(--text-lead)] text-ink-2">
+        İstanbul genelinde mimari proje, iç mimarlık ve tasarım hizmeti veriyoruz. Bölgenizi
+        seçin, oradaki çalışma yaklaşımımızı inceleyin.
+      </p>
+
+      <div class="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        {
+          items.map((b) => (
+            <a href={`/bolgeler/${b.id}/`} class="group bg-canvas p-7 transition-colors hover:bg-canvas-2">
+              <h2 class="font-display text-lg text-ink transition-colors group-hover:text-accent">{b.data.ilce}</h2>
+              <p class="mt-2 text-sm text-muted">{b.data.intro}</p>
+              <span class="mt-5 inline-block text-sm text-accent">Detay →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

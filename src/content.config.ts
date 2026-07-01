@@ -57,4 +57,32 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { services, projects };
+const bolgeler = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/bolgeler" }),
+  schema: z.object({
+    title: z.string(),
+    ilce: z.string(),
+    intro: z.string(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+    services: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const rehber = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/rehber" }),
+  schema: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    datePublished: z.string(),
+    dateModified: z.string().optional(),
+    author: z.string().default("Eksenart Mimarlık"),
+    category: z.string().optional(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { services, projects, bolgeler, rehber };

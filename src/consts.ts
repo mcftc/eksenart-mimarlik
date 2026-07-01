@@ -47,6 +47,7 @@ export const SOCIAL = {
 export const NAV: { label: string; href: string }[] = [
   { label: "Hizmetler", href: "/hizmetler/" },
   { label: "Projeler", href: "/projeler/" },
+  { label: "Rehber", href: "/rehber/" },
   { label: "Stüdyo", href: "/hakkimizda/" },
   { label: "İletişim", href: "/iletisim/" },
 ];

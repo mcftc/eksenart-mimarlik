@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/consts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("rehber", (p) => !p.data.draft);
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const path = `/rehber/${entry.id}/`;
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+
+const article = {
+  "@type": "Article",
+  headline: d.title,
+  description: d.metaDescription ?? d.excerpt,
+  datePublished: d.datePublished,
+  dateModified: d.dateModified ?? d.datePublished,
+  author: { "@type": "Organization", name: d.author, url: SITE.url },
+  publisher: { "@id": `${SITE.url}/#organization` },
+  mainEntityOfPage: SITE.url + path,
+  inLanguage: "tr-TR",
+};
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: SITE.url + "/" },
+    { "@type": "ListItem", position: 2, name: "Rehber", item: SITE.url + "/rehber/" },
+    { "@type": "ListItem", position: 3, name: d.title, item: SITE.url + path },
+  ],
+};
+---
+
+<BaseLayout
+  title={d.metaTitle ?? d.title}
+  description={d.metaDescription ?? d.excerpt}
+  path={path}
+  type="article"
+  jsonLd={[article, breadcrumb]}
+>
+  <article class="section">
+    <div class="container-page max-w-3xl">
+      <nav aria-label="Sayfa yolu" class="flex items-center gap-2 text-sm text-muted">
+        <a href="/" class="hover:text-accent">Ana Sayfa</a><span aria-hidden="true">/</span>
+        <a href="/rehber/" class="hover:text-accent">Rehber</a>
+      </nav>
+
+      <p class="eyebrow mt-6">{d.category}</p>
+      <h1 class="mt-3 text-[length:var(--text-h1)]">{d.title}</h1>
+      <div class="mt-4 flex items-center gap-3 text-sm text-muted">
+        <span>{d.author}</span><span aria-hidden="true">·</span>
+        <time datetime={d.datePublished}>{fmt(d.datePublished)}</time>
+      </div>
+
+      <p class="mt-6 font-serif text-[length:var(--text-lead)] text-ink-2">{d.excerpt}</p>
+
+      <div class="prose-eksen mt-10"><Content /></div>
+
+      <div class="mt-16 flex flex-col items-start gap-4 border-t border-line pt-10 sm:flex-row sm:items-center sm:justify-between">
+        <p class="font-serif text-xl text-ink">Projeniz için görüşelim mi?</p>
+        <a href="/iletisim/" class="inline-flex items-center gap-2 bg-accent px-6 py-3 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong">
+          İletişime geçin <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
