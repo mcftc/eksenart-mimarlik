@@ -15,11 +15,11 @@ export const SITE = {
     blurb: "Fuar standı tasarım ve üretimi mi arıyorsunuz?",
   },
   defaultTitle:
-    "İstanbul Mimarlık ve İnşaat Ofisi | Mimari Proje & Anahtar Teslim",
+    "Eksenart Mimarlık Ofisi | İstanbul Mimari Proje ve İç Mimarlık",
   titleTemplate: "%s | Eksenart Mimarlık",
   description:
-    "İstanbul merkezli mimarlık ve inşaat ofisi. Mimari proje, iç mimarlık, anahtar teslim inşaat, tadilat ve kentsel dönüşüm. Mimari tasarımdan anahtar teslime tek elden.",
-  positioning: "Mimari tasarımdan anahtar teslime.",
+    "Eksenart Mimarlık — İstanbul merkezli mimarlık ofisi. Mimari proje, iç mimarlık, mimari tasarım, tadilat-renovasyon ve 3D mimari görselleştirme. Fikirden projeye bütüncül mimari çözümler.",
+  positioning: "Fikirden projeye, İstanbul'da bütüncül mimari.",
 } as const;
 
 export const CONTACT = {
